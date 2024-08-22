@@ -10,17 +10,17 @@ import in.co.rays.model.RoleModel;
 
 public class TestRole {
 	public static void main(String[] args) throws Exception {
-		// testAdd();
+		testAdd();
 		// testUpdate();
 		// testDelete();
-		// testFindByPk();
-		testSearch();
+		// testSearch();
 	}
 
 	public static void testAdd() throws Exception {
 		RoleBean bean = new RoleBean();
-		bean.setId(1);
-		bean.setName("prachi");
+
+		bean.setId(3);
+		bean.setName("Vinjal");
 		bean.setDescription("description");
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
@@ -49,23 +49,6 @@ public class TestRole {
 	public static void testDelete() throws Exception {
 		RoleModel model = new RoleModel();
 		model.delete(4);
-	}
-
-	public static void testFindByPk() throws Exception {
-		RoleModel model = new RoleModel();
-		RoleBean bean = model.findByPk(1);
-		if (bean != null) {
-			System.out.print(" " + bean.getId());
-			System.out.print(" " + bean.getName());
-			System.out.print(" " + bean.getDescription());
-			System.out.print(" " + bean.getCreatedBy());
-			System.out.print(" " + bean.getModifiedBy());
-			System.out.print(" " + bean.getCreatedDatetime());
-			System.out.print(" " + bean.getModifiedDatetime());
-		} else {
-			System.out.println(" id not found ");
-		}
-
 	}
 
 	public static void testSearch() throws Exception {

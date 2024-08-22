@@ -14,6 +14,7 @@ public class TestSubject {
 		// testAdd();
 		// testUpdate();
 		// testDelete();
+		// testSearch();
 
 	}
 
@@ -76,25 +77,6 @@ public class TestSubject {
 
 		} else {
 			System.out.println("Name not found");
-		}
-
-	}
-
-	public static void testFindByPk() throws Exception {
-		SubjectModel model = new SubjectModel();
-		SubjectBean bean = model.findByPk(1);
-		if (bean != null) {
-			System.out.print(" " + bean.getId());
-			System.out.println(" " + bean.getName());
-			System.out.println(" " + bean.getCourseId());
-			System.out.println(" " + bean.getCourseName());
-			System.out.print(" " + bean.getDescription());
-			System.out.print(" " + bean.getCreatedBy());
-			System.out.print(" " + bean.getModifiedBy());
-			System.out.print(" " + bean.getCreatedDatetime());
-			System.out.print(" " + bean.getModifiedDatetime());
-		} else {
-			System.out.println(" id not found ");
 		}
 
 	}

@@ -16,7 +16,6 @@ public class TestCollege {
 		// testUpdate();
 		// testDelete();
 		// testSearch();
-        // testfindByName()
 
 	}
 
@@ -62,27 +61,6 @@ public class TestCollege {
 
 		CollegeModel model = new CollegeModel();
 		model.delete(1);
-	}
-
-	public static void testfindByName() throws Exception {
-		CollegeModel model = new CollegeModel();
-		CollegeBean bean = model.findByName("DAVV");
-
-		if (bean != null) {
-			System.out.print(" " + bean.getId());
-			System.out.print(" " + bean.getName());
-			System.out.print(" " + bean.getAddress());
-			System.out.print(" " + bean.getState());
-			System.out.print(" " + bean.getCity());
-			System.out.print(" " + bean.getPhoneNo());
-			System.out.print(" " + bean.getCreatedBy());
-			System.out.print(" " + bean.getModifiedBy());
-			System.out.print(" " + bean.getCreatedDatetime());
-			System.out.print(" " + bean.getModifiedDatetime());
-		} else {
-			System.out.println(" id not found ");
-		}
-
 	}
 
 	public static void testSearch() throws Exception {

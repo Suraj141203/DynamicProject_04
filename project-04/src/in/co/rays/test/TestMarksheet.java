@@ -14,9 +14,7 @@ public class TestMarksheet {
 		testAdd();
 //		testUpdate();
 //		 testDelete();
-//		 testSearch();
-//		 testfindByPk();
-//		 testAuth();
+//		 testSearch():
 	}
 
 	public static void testAdd() throws Exception {
@@ -59,50 +57,6 @@ public class TestMarksheet {
 	public static void testDelete() throws Exception {
 		MarksheetModel model = new MarksheetModel();
 		model.delete(2);
-	}
-
-	public static void testfindByPk() throws Exception {
-		MarksheetModel model = new MarksheetModel();
-		MarksheetBean bean = model.findByPk(1);
-		if (bean != null) {
-			System.out.print(bean.getId());
-			System.out.print(" " + bean.getRollNo());
-			System.out.print(" " + bean.getStudentId());
-			System.out.print(" " + bean.getName());
-			System.out.print(" " + bean.getPhysics());
-			System.out.print(" " + bean.getChemistry());
-			System.out.print(" " + bean.getMaths());
-			System.out.print(" " + bean.getCreatedBy());
-			System.out.print(" " + bean.getModifiedBy());
-			System.out.print(" " + bean.getCreatedDatetime());
-			System.out.print(" " + bean.getModifiedDatetime());
-		} else {
-			System.out.println("id not found...!");
-		}
-
-	}
-
-	public static void testRollNo() throws Exception {
-		MarksheetModel model = new MarksheetModel();
-		MarksheetBean bean = model.findByRollNo("");
-
-		if (bean != null) {
-			System.out.print(bean.getId());
-			System.out.print(" " + bean.getRollNo());
-			System.out.print(" " + bean.getStudentId());
-			System.out.print(" " + bean.getName());
-			System.out.print(" " + bean.getPhysics());
-			System.out.print(" " + bean.getChemistry());
-			System.out.print(" " + bean.getMaths());
-			System.out.print(" " + bean.getCreatedBy());
-			System.out.print(" " + bean.getModifiedBy());
-			System.out.print(" " + bean.getCreatedDatetime());
-			System.out.print(" " + bean.getModifiedDatetime());
-
-		} else {
-			System.out.println("rollNo not found");
-		}
-
 	}
 
 	public static void testSearch() throws Exception {

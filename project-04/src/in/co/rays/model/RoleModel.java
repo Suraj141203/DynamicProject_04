@@ -3,8 +3,11 @@ package in.co.rays.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import in.co.rays.bean.CollegeBean;
 import in.co.rays.bean.RoleBean;
 import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.util.JDBCDataSource;
@@ -24,8 +27,14 @@ public class RoleModel {
 
 	public void add(RoleBean bean) throws DuplicateRecordException, Exception {
 		int pk = (int) pk();
+
+		RoleBean existBean = findByName(bean.getName());
+		if (existBean != null) {
+			throw new DuplicateRecordException("RoleName Already Exist");
+		}
+
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("insert into st_role values(?,?,?,?,?,?,?)");
+		PreparedStatement pstmt = conn.prepareStatement("insert into st_role values(?, ?, ?, ?, ?, ?, ?)");
 		pstmt.setLong(1, pk);
 		pstmt.setString(2, bean.getName());
 		pstmt.setString(3, bean.getDescription());
@@ -36,14 +45,14 @@ public class RoleModel {
 
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("query added=>" + i);
+		System.out.println("Data Added=>" + i);
 
 	}
 
 	public void update(RoleBean bean) throws Exception {
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(
-				"update  st_role set name=?, description=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? where id=?");
+				"update st_role set name=?, description=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? where id=?");
 
 		pstmt.setString(1, bean.getName());
 		pstmt.setString(2, bean.getDescription());
@@ -54,7 +63,7 @@ public class RoleModel {
 		pstmt.setLong(7, bean.getId());
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("query updated=>" + i);
+		System.out.println("Data Updated=>" + i);
 
 	}
 
@@ -64,7 +73,7 @@ public class RoleModel {
 		pstmt.setLong(1, id);
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("query deleted=>" + i);
+		System.out.println("Data Deleted=>" + i);
 	}
 
 	public RoleBean findByPk(long id) throws Exception {
@@ -86,6 +95,28 @@ public class RoleModel {
 		}
 		JDBCDataSource.closeConnection(conn);
 		return bean;
+	}
+
+	public RoleBean findByName(String name) throws SQLException {
+		Connection conn = JDBCDataSource.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_role where name = ?");
+		pstmt.setString(1, name);
+		ResultSet rs = pstmt.executeQuery();
+		RoleBean bean = null;
+		while (rs.next()) {
+			bean = new RoleBean();
+			bean.setId(rs.getLong(1));
+			bean.setName(rs.getString(2));
+			bean.setDescription(rs.getString(3));
+			bean.setCreatedBy(rs.getString(4));
+			bean.setModifiedBy(rs.getString(5));
+			bean.setCreatedDatetime(rs.getTimestamp(6));
+			bean.setModifiedDatetime(rs.getTimestamp(7));
+
+		}
+		JDBCDataSource.closeConnection(conn);
+		return bean;
+
 	}
 
 	public List search(RoleBean bean, int pageNo, int pageSize) throws Exception {
