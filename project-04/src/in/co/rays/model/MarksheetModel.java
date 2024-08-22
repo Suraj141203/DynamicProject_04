@@ -44,7 +44,7 @@ public class MarksheetModel {
 		pstmt.setTimestamp(11, bean.getModifiedDatetime());
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println(" query added==>" + i);
+		System.out.println(" Data Added==>" + i);
 
 	}
 
@@ -70,7 +70,7 @@ public class MarksheetModel {
 		pstmt.setLong(11, bean.getId());
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println(" query updated==>" + i);
+		System.out.println(" Data Updated==>" + i);
 
 	}
 
@@ -80,7 +80,7 @@ public class MarksheetModel {
 		pstmt.setLong(1, id);
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println(" query deleted==>" + i);
+		System.out.println(" Data Deleted==>" + i);
 
 	}
 

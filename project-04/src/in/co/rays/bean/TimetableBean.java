@@ -8,7 +8,7 @@ public class TimetableBean extends BaseBean {
 	private String description;
 	private Date examDate;
 	private String examTime;
-	private Long courseld;
+	private Long courseId;
 	private String courseName;
 	private Long subjectId;
 	private String subjectName;
@@ -45,12 +45,12 @@ public class TimetableBean extends BaseBean {
 		this.examTime = examTime;
 	}
 
-	public Long getCourseld() {
-		return courseld;
+	public Long getCourseId() {
+		return courseId;
 	}
 
-	public void setCourseld(Long courseld) {
-		this.courseld = courseld;
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
 	}
 
 	public String getCourseName() {

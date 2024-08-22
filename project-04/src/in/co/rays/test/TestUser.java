@@ -92,7 +92,7 @@ public class TestUser {
 
 	public static void testAuth() throws Exception {
 		UserModel model = new UserModel();
-		UserBean bean = model.authenticate("madhu@gmail.com", "123");
+		UserBean bean = model.authenticate("Surajyadav141203@gmail.com", "1412");
 
 		if (bean != null) {
 			System.out.print(bean.getId());

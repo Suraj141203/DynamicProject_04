@@ -35,7 +35,7 @@ public class CourseModel {
 		pstmt.setTimestamp(7, bean.getCreatedDatetime());
 		pstmt.setTimestamp(8, bean.getModifiedDatetime());
 		int i = pstmt.executeUpdate();
-		System.out.println("query added===>" + i);
+		System.out.println("Data Added===>" + i);
 
 	}
 
@@ -54,7 +54,19 @@ public class CourseModel {
 		pstmt.setLong(8, bean.getId());
 
 		int i = pstmt.executeUpdate();
+		System.out.println("Data Updated ==>" + i);
+
 		JDBCDataSource.closeConnection(conn);
+	}
+
+	public void delete(long id) throws Exception {
+		Connection conn = JDBCDataSource.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement("delete from st_course where id=?");
+		pstmt.setLong(1, id);
+
+		int i = pstmt.executeUpdate();
+		JDBCDataSource.closeConnection(conn);
+		System.out.println("Data Deleted==>" + i);
 	}
 
 	public CourseBean findByPk(long id) throws Exception {

@@ -75,7 +75,7 @@ public class CollegeModel {
 
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("query updated==>" + i);
+		System.out.println("Data Updated==>" + i);
 	}
 
 	public void delete(long id) throws Exception {
@@ -85,13 +85,13 @@ public class CollegeModel {
 
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("query deleted==>" + i);
+		System.out.println("Data Deleted ==>" + i);
 
 	}
 
 	public CollegeBean findByName(String name) throws SQLException {
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement("select * from st_college where name=?");
+		PreparedStatement pstmt = conn.prepareStatement("select* from st_college where name=?");
 		pstmt.setString(1, name);
 		ResultSet rs = pstmt.executeQuery();
 		CollegeBean bean = null;
