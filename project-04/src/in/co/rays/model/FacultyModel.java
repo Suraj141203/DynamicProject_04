@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.co.rays.bean.CollegeBean;
 import in.co.rays.bean.CourseBean;
 import in.co.rays.bean.FacultyBean;
+import in.co.rays.bean.SubjectBean;
+import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.util.JDBCDataSource;
 
 public class FacultyModel {
@@ -26,6 +29,24 @@ public class FacultyModel {
 	public void add(FacultyBean bean) throws Exception {
 
 		long pk = nextPk();
+
+		FacultyBean existBean = findByEmail(bean.getEmail());
+		if (existBean != null) {
+			throw new DuplicateRecordException("Email Already Exist !..");
+		}
+
+		CollegeModel collegeModel = new CollegeModel();
+		CollegeBean collegeBean = collegeModel.findbypk(bean.getCollegeId());
+		bean.setCollegeName(collegeBean.getName());
+
+		CourseModel courseModel = new CourseModel();
+		CourseBean courseBean = courseModel.findByPk(bean.getCourseId());
+		bean.setCourseName(courseBean.getName());
+
+		SubjectModel subjectModel = new SubjectModel();
+		SubjectBean subjectBean = subjectModel.findByPk(bean.getSubjectId());
+		bean.setSubjectName(subjectBean.getName());
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn
 				.prepareStatement("insert into st_faculty values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -47,13 +68,20 @@ public class FacultyModel {
 		pstmt.setTimestamp(16, bean.getCreatedDatetime());
 		pstmt.setTimestamp(17, bean.getModifiedDatetime());
 		int i = pstmt.executeUpdate();
-		System.out.println(" Data Added==>" + i);
+		System.out.println("Data Added==>" + i);
 
 	}
 
 	public void update(FacultyBean bean) throws Exception {
 
 		long pk = nextPk();
+
+		FacultyBean existBean = findByEmail(bean.getEmail());
+
+		if (existBean != null && bean.getId() != existBean.getId()) {
+			throw new DuplicateRecordException("Email Already Exist !..");
+		}
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(
 				"update st_faculty set first_name =?, last_name =?, dob = ?, gender=?, mobile_no=?, email=?, college_id=?, college_name=?, course_id=?, course_name=?, subject_id=?, subject_name=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? where id =?");
@@ -95,6 +123,38 @@ public class FacultyModel {
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement("select * from st_faculty where id=?");
 		pstmt.setLong(1, id);
+		ResultSet rs = pstmt.executeQuery();
+		FacultyBean bean = null;
+		while (rs.next()) {
+			bean = new FacultyBean();
+			bean.setId(rs.getLong(1));
+			bean.setFirstName(rs.getString(2));
+			bean.setLastName(rs.getString(3));
+			bean.setDob(rs.getDate(4));
+			bean.setGender(rs.getString(5));
+			bean.setMobileNo(rs.getString(6));
+			bean.setEmail(rs.getString(7));
+			bean.setCollegeId(rs.getLong(8));
+			bean.setCollegeName(rs.getString(9));
+			bean.setCourseId(rs.getLong(10));
+			bean.setCourseName(rs.getString(11));
+			bean.setSubjectId(rs.getLong(12));
+			bean.setSubjectName(rs.getString(13));
+			bean.setCreatedBy(rs.getString(14));
+			bean.setModifiedBy(rs.getString(15));
+			bean.setCreatedDatetime(rs.getTimestamp(16));
+			bean.setModifiedDatetime(rs.getTimestamp(17));
+
+		}
+		JDBCDataSource.closeConnection(conn);
+		return bean;
+	}
+
+	public FacultyBean findByEmail(String email) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_faculty where email=?");
+		pstmt.setString(1, email);
 		ResultSet rs = pstmt.executeQuery();
 		FacultyBean bean = null;
 		while (rs.next()) {

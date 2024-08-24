@@ -12,8 +12,8 @@ import in.co.rays.model.UserModel;
 public class TestUser {
 	public static void main(String[] args) throws Exception {
 
-		// testAdd();
-		testUpdate();
+		 testAdd();
+		//testUpdate();
 		// testDelete();
 		// testSearch();
 

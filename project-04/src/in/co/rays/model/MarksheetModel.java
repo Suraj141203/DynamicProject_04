@@ -24,8 +24,9 @@ public class MarksheetModel {
 
 	public void add(MarksheetBean bean) throws Exception {
 		MarksheetBean existBean = findByRollNo(bean.getRollNo());
+
 		if (existBean != null) {
-			throw new DuplicateRecordException("rollno already exist");
+			throw new DuplicateRecordException("RollNo Already Exist...!");
 		}
 
 		int pk = nextPk();
@@ -52,8 +53,9 @@ public class MarksheetModel {
 		MarksheetBean existBean = findByRollNo(bean.getRollNo());
 
 		if (existBean != null && existBean.getRollNo() != bean.getRollNo()) {
-			throw new DuplicateRecordException("Roll No is already exist");
+			throw new DuplicateRecordException("RollNo Already Exist");
 		}
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(
 				"update st_marksheet set roll_no=?, student_id=?, name=?, physics=?, chemistry=?, maths=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? where id=?");

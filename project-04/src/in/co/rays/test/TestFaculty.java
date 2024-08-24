@@ -65,7 +65,7 @@ public class TestFaculty {
 		bean.setModifiedBy("aryan@gmail.com");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
 		bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
-		bean.setId(1);
+		bean.setId(2);
 
 		FacultyModel model = new FacultyModel();
 		model.update(bean);

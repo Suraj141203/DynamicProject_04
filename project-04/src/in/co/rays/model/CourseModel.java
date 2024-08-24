@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import in.co.rays.bean.CourseBean;
+import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.util.JDBCDataSource;
 
 public class CourseModel {
@@ -24,6 +25,13 @@ public class CourseModel {
 
 	public void add(CourseBean bean) throws Exception {
 		long pk = nextPk();
+
+		CourseBean existBean = findByName(bean.getName());
+		if (existBean != null) {
+			throw new DuplicateRecordException("Course Name Already Exist");
+
+		}
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement("insert into st_course values(?,?,?,?,?,?,?,?)");
 		pstmt.setLong(1, pk);
@@ -40,6 +48,13 @@ public class CourseModel {
 	}
 
 	public void update(CourseBean bean) throws Exception {
+
+		CourseBean existBean = findByName(bean.getName());
+		if (existBean != null && bean.getId() != existBean.getId()) {
+			throw new DuplicateRecordException("Course Name Already Exist");
+
+		}
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(
 				"update st_course set name=?, duration=?, description=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? where id=?");
@@ -71,8 +86,30 @@ public class CourseModel {
 
 	public CourseBean findByPk(long id) throws Exception {
 		Connection conn = JDBCDataSource.getConnection();
-		PreparedStatement pstmt = conn.prepareStatement(" select * from st_course where id=? ");
+		PreparedStatement pstmt = conn.prepareStatement("select * from st_course where id=?");
 		pstmt.setLong(1, id);
+		ResultSet rs = pstmt.executeQuery();
+		CourseBean bean = null;
+		while (rs.next()) {
+			bean = new CourseBean();
+			bean.setId(rs.getLong(1));
+			bean.setName(rs.getString(2));
+			bean.setDuration(rs.getString(3));
+			bean.setDescription(rs.getString(4));
+			bean.setCreatedBy(rs.getString(5));
+			bean.setModifiedBy(rs.getString(6));
+			bean.setCreatedDatetime(rs.getTimestamp(7));
+			bean.setModifiedDatetime(rs.getTimestamp(8));
+		}
+		return bean;
+
+	}
+
+	public CourseBean findByName(String name) throws Exception {
+
+		Connection conn = JDBCDataSource.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement(" select * from st_course where name=? ");
+		pstmt.setString(1, name);
 		ResultSet rs = pstmt.executeQuery();
 		CourseBean bean = null;
 		while (rs.next()) {

@@ -46,7 +46,7 @@ public class CollegeModel {
 
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("query added==>" + i);
+		System.out.println("Data Added==>" + i);
 
 	}
 
@@ -55,7 +55,6 @@ public class CollegeModel {
 		CollegeBean existBean = findByName(bean.getName());
 
 		if (existBean != null && existBean.getId() != bean.getId()) {
-
 			throw new DuplicateRecordException("College is already exist");
 		}
 		Connection conn = JDBCDataSource.getConnection();
@@ -75,7 +74,7 @@ public class CollegeModel {
 
 		int i = pstmt.executeUpdate();
 		JDBCDataSource.closeConnection(conn);
-		System.out.println("Data Updated==>" + i);
+		System.out.println("Data Updated ==>" + i);
 	}
 
 	public void delete(long id) throws Exception {

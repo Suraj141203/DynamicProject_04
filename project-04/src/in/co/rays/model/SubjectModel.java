@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import in.co.rays.bean.StudentBean;
 import in.co.rays.bean.SubjectBean;
+import in.co.rays.exception.DuplicateRecordException;
 import in.co.rays.util.JDBCDataSource;
 
 public class SubjectModel {
@@ -36,6 +39,11 @@ public class SubjectModel {
 
 		long pk = nextPk();
 
+		SubjectBean existBean = findByName(bean.getName());
+		if (existBean != null) {
+			throw new DuplicateRecordException("Subject Already Exist");
+		}
+
 		Connection conn = JDBCDataSource.getConnection();
 
 		PreparedStatement pstmt = conn.prepareStatement("insert into st_subject values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -59,6 +67,11 @@ public class SubjectModel {
 	}
 
 	public void update(SubjectBean bean) throws Exception {
+
+		SubjectBean existBean = findByName(bean.getName());
+		if (existBean != null && bean.getId() != existBean.getId()) {
+			throw new DuplicateRecordException("Name Already Exist");
+		}
 
 		Connection conn = JDBCDataSource.getConnection();
 
@@ -95,7 +108,7 @@ public class SubjectModel {
 
 		JDBCDataSource.closeConnection(conn);
 
-		System.out.println("" + "Data Deleted => " + i);
+		System.out.println("Data Deleted => " + i);
 
 	}
 

@@ -24,6 +24,7 @@ public class TimetableModel {
 
 	public void add(TimetableBean bean) throws Exception {
 		long pk = nextPk();
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn
 				.prepareStatement("insert into st_timetable values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

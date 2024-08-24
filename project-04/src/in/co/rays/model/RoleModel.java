@@ -50,6 +50,12 @@ public class RoleModel {
 	}
 
 	public void update(RoleBean bean) throws Exception {
+
+		RoleBean existBean = findByName(bean.getName());
+		if (existBean != null && bean.getId() != existBean.getId()) {
+			throw new DuplicateRecordException("RoleName Already Exist");
+		}
+
 		Connection conn = JDBCDataSource.getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(
 				"update st_role set name=?, description=?, created_by=?, modified_by=?, created_datetime=?, modified_datetime=? where id=?");
